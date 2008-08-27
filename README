@@ -1,0 +1,49 @@
+= Hickey
+
+Supporting Hickey version: 0.0.x
+
+Hickey is a DSL for preparing Rails test database.
+
+== Installation
+
+=== Normal Installation
+
+You can install Hickey with the following command.
+
+  % ruby install.rb
+
+from its distribution directory.
+
+=== GEM Installation
+
+Download and install Hickey with the following.
+
+   gem install --remote hickey
+
+== License
+
+Hickey is available under an Apache License Version 2.0.
+
+== Support
+
+Feel free to submit commits or feature requests.  If you send a patch,
+remember to update the corresponding unit tests.  If fact, I prefer
+new feature to be submitted in the form of new unit tests.
+
+For other information, feel free to ask on the ruby-talk mailing list or contact
+mailto:swing1979@gmail.com.
+
+= Other stuff
+
+Author::  Li Xiao <swing1979@gmail.com>
+Requires:: Ruby 1.8.6 or later
+License::  Copyright 2008 by Li Xiao.
+           Released under an Apache License Version 2.0.  See the LICENSE file
+           included in the distribution.
+
+== Warranty
+
+This software is provided "as is" and without any express or
+implied warranties, including, without limitation, the implied
+warranties of merchantibility and fitness for a particular
+purpose.
