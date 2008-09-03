@@ -6,15 +6,10 @@ Gem::Specification.new do |s|
   s.version = '0.0.1'
   s.summary = "Hickey is a DSL for preparing Rails test database."
 
+  s.add_dependency('activerecord', '>= 2.1.0')
   #### Which files are to be included in this gem?  Everything!  (Except SVN directories.)
 
-  s.files = FileList[
-    'install.rb',
-    '[A-Z]*',
-    'lib/**/*.rb', 
-    'test/**/*.rb',
-    'doc/**/*'
-  ]
+  s.files = ["lib/hickey.rb", "CHANGES", "hickey.gemspec", "lib", "LICENSE.TXT", "Rakefile", "README", "TODO"]
 
   #### Load-time details: library and application (you will need one or both).
 
@@ -26,6 +21,6 @@ Gem::Specification.new do |s|
 
   #### Author and project details.
   s.author = "Li Xiao"
-  s.email = "swing1979@gmail.com"
+  s.email = "iam@li-xiao.com"
   s.homepage = "https://github.com/xli/hickey/tree"
 end
