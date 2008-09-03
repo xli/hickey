@@ -3,5 +3,11 @@
 Send suggestions for this list to iam@li-xiao.com
 
 === To Do
+  * prepare has_many relationship models
+  * prepare belongs_to relationship models
+  * prepare belongs_and_has_many relationship models
+  * prepare with model validation
+  * prepare model data should not trigger any callback
+  * fast prepare by sql? really need it?
 
 (moved DONE list to CHANGES file)
