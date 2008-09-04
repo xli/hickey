@@ -19,12 +19,12 @@ require 'singleton'
 module Hickey
   class TestHelper
     include Singleton
-    def create_table(name, &block)
+    def create_table(name, options={}, &block)
       return if connection.table_exists?(name)
       if block_given?
-        connection.create_table(name, &block)
+        connection.create_table(name, options, &block)
       else
-        connection.create_table(name) {|t|}
+        connection.create_table(name, options) {|t|}
       end
     end
     
@@ -36,3 +36,22 @@ end
 
 Hickey::TestHelper.instance.create_table :simples
 
+Hickey::TestHelper.instance.create_table "projects", :force => true do |t|
+  t.column "name",                        :string,   :default => "",         :null => false
+  t.column "identifier",                  :string,   :default => "",         :null => false
+  t.column "description",                 :text
+  t.column "created_at",                  :datetime,                         :null => false
+  t.column "updated_at",                  :datetime,                         :null => false
+  t.column "hidden",                      :boolean,  :default => false
+end
+
+Hickey::TestHelper.instance.create_table "users", :force => true do |t|
+  t.column "login",                     :string,                   :default => "",   :null => false
+  t.column "admin",                     :boolean
+end
+
+Hickey::TestHelper.instance.create_table "projects_members", :force => true do |t|
+  t.column "user_id",    :integer,                    :null => false
+  t.column "project_id", :integer,                    :null => false
+  t.column "admin",      :boolean, :default => false, :null => false
+end

@@ -31,7 +31,7 @@ module Hickey
     
     def kiss
       object = @name.to_s.classify.constantize.new(@attributes)
-      object.save_with_validation(false)
+      object.send(:create_without_callbacks)
       object
     end
   end
