@@ -1,7 +1,8 @@
 require File.expand_path(File.dirname(__FILE__)) + '/test_helper'
 require 'models/simple'
+require 'models/user'
 
-class SimpleModelTest < Test::Unit::TestCase
+class SingleModelTest < Test::Unit::TestCase
   def test_create_simple_model
     Hickey.kiss(:simple => {})
     assert_equal 1, Simple.find(:all).size
@@ -46,5 +47,11 @@ class SimpleModelTest < Test::Unit::TestCase
       def before_save_callback
       end
     end
+  end
+
+  def test_create_model_with_attributes
+    Hickey.kiss(:user => {:login => 'xli', :admin => true})
+    user = User.find_by_login_and_admin('xli', true)
+    assert_not_nil user
   end
 end
