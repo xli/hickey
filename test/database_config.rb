@@ -37,11 +37,12 @@ end
 Hickey::TestHelper.instance.create_table :simples
 
 Hickey::TestHelper.instance.create_table "projects", :force => true do |t|
-  t.column "name",                        :string,   :default => "",         :null => false
   t.column "identifier",                  :string,   :default => "",         :null => false
   t.column "description",                 :text
-  t.column "created_at",                  :datetime,                         :null => false
-  t.column "updated_at",                  :datetime,                         :null => false
+  t.column "created_at",                  :datetime
+  t.column "updated_at",                  :datetime
+  t.column "created_on",                  :datetime
+  t.column "updated_on",                  :datetime
   t.column "hidden",                      :boolean,  :default => false
 end
 
