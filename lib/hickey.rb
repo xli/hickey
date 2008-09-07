@@ -11,14 +11,7 @@ require 'hickey/model'
 
 module Hickey
   def kiss(domains)
-    r = {}
-    domains.each do |name, attributes|
-      r[name] = if attributes.kind_of?(Array)
-        Model.kiss_models(name, attributes)
-      else
-        Model.kiss(name, attributes)
-      end
-    end
+    r = Model.kiss_domains(domains)
     r.size == 1 ? r.values.first : r
   end
   

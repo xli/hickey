@@ -3,14 +3,17 @@
 Send suggestions for this list to iam@li-xiao.com
 
 === To Do
-  * prepare model with attributes
   * prepare multi-models domain
-    * prepare has_many relationship models
-    * prepare belongs_to relationship models
     * prepare belongs_and_has_many relationship models
   * prepare with model validation
   * should be in transaction?
   * fast prepare by sql? really need it?
-  ! prepare model data should not trigger any callback
+  
+=== Done
+  * prepare model data should not trigger any callback
+  * prepare model with attributes
+  * prepare multi-models domain
+    * prepare has_many relationship models
+    * prepare belongs_to relationship models
 
 (moved DONE list to CHANGES file)

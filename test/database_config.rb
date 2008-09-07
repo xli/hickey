@@ -52,7 +52,7 @@ Hickey::TestHelper.instance.create_table "users", :force => true do |t|
 end
 
 Hickey::TestHelper.instance.create_table "projects_members", :force => true do |t|
-  t.column "user_id",    :integer,                    :null => false
-  t.column "project_id", :integer,                    :null => false
+  t.column "user_id",    :integer
+  t.column "project_id", :integer
   t.column "admin",      :boolean, :default => false, :null => false
 end
