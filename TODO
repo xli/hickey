@@ -4,8 +4,14 @@ Send suggestions for this list to iam@li-xiao.com
 
 === To Do
   * prepare multi-models domain
-    * prepare belongs_and_has_many relationship models
-    * specify class by :class_name, :source
+    * specify class by :class_name
+      * has_many
+      * has_one
+      * belongs_to
+      * has_and_belongs_to_many
+    * :source, :source_type options in has_many :through
+    * polymorphic
+  * composed_of
   * prepare with model validation
   * should be in transaction?
   * fast prepare by sql? really need it?
@@ -16,5 +22,6 @@ Send suggestions for this list to iam@li-xiao.com
   * prepare multi-models domain
     * prepare has_many relationship models
     * prepare belongs_to relationship models
+    * prepare belongs_and_has_many relationship models
 
 (moved DONE list to CHANGES file)

@@ -13,8 +13,13 @@ ActiveRecord::Schema.define do
   end
 
   create_table "users", :force => true do |t|
-    t.column "login",                     :string,                   :default => "",   :null => false
+    t.column "login",                     :string, :default => "", :null => false
     t.column "admin",                     :boolean
+  end
+
+  create_table "topics", :force => true do |t|
+    t.column "user_id",                   :integer, :null => false
+    t.column "title",                     :string
   end
 
   create_table "projects_members", :force => true do |t|

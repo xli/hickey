@@ -3,8 +3,19 @@ require 'models/projects_member'
 require 'models/user'
 require 'models/project'
 require 'models/country'
+require 'models/topic'
 
 class ModelAssociationTest < Test::Unit::TestCase
+  
+  def test_should_return_same_with_models_loaded_from_db_after_created_models
+    project = Hickey.kiss :project => {:identifier => 'hickey', :projects_members => [:user => {:login => 'xli'}]}
+    
+    db_project = Project.find(:first)
+    assert_equal project, db_project
+    assert_equal project.projects_members.size, db_project.projects_members.size
+    assert_equal project.projects_members.first.user, db_project.projects_members.first.user
+  end
+
   def test_has_many_association_with_empty_models
     project = Hickey.kiss(:project => {:identifier => 'hickey', :projects_members => []})
     assert_equal [], project.projects_members
@@ -40,18 +51,16 @@ class ModelAssociationTest < Test::Unit::TestCase
     assert_equal 'xli', project.users.first.login
   end
   
-  def test_should_return_same_with_models_loaded_from_db_after_created_models
-    project = Hickey.kiss :project => {:identifier => 'hickey', :projects_members => [:user => {:login => 'xli'}]}
-    
-    db_project = Project.find(:first)
-    assert_equal project, db_project
-    assert_equal project.projects_members.size, db_project.projects_members.size
-    assert_equal project.projects_members.first.user, db_project.projects_members.first.user
-  end
-  
-  def test_create_associated_has_and_belongs_to_models
+  def test_create_associated_has_and_belongs_to_many_models
     user = Hickey.kiss :user => {:login => 'xli', :countries => [{:name => 'China'}]}
+
     assert_equal 1, user.countries.size
     assert_equal 'China', user.countries.first.name
+  end
+  
+  def test_create_associated_has_many_models_with_class_name
+    user = Hickey.kiss :user => {:login => 'xli', :my_topics => [{:title => 'Bla bla...'}]}
+    assert_equal 1, user.my_topics.size
+    assert_equal 'Bla bla...', user.my_topics.first.title
   end
 end

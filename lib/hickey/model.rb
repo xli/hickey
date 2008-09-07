@@ -18,21 +18,36 @@ module Hickey
     
     def initialize(name, attributes)
       @name = name
-      domains = Model.kiss_domains(attributes)
-      @attributes = domains.reject {|name, value| value.kind_of?(Array)}
-      @associations = domains.select {|name, value| value.kind_of?(Array)}
+      @attributes = attributes
     end
     
     def kiss
-      object = @name.to_s.classify.constantize.new(@attributes)
+      @column_values = @attributes.reject {|name, value| association?(value)}
+      @associations = @attributes.select {|name, value| association?(value)}
+
+      object = @name.to_s.classify.constantize.new(@column_values)
       object.attach_timestamps
       object.send(:create_without_callbacks)
       
       @associations.each do |name, value|
-        object.send(name) << value
+        if value.kind_of?(Array)
+          r = value.collect do |v|
+            v.each do |attr_name, attr_value|
+              v[attr_name] = Model.new(attr_name, attr_value).kiss if attr_value.kind_of?(Hash)
+            end
+          end
+          object.send(name) << object.send(name).build(r)
+        else
+          object.send("#{name}=", Model.new(name, value).kiss)
+        end
       end
       
       object
+    end
+    
+    private
+    def association?(value)
+      value.kind_of?(Array) || value.kind_of?(Hash)
     end
   end
 end
