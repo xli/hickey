@@ -2,6 +2,7 @@ require File.expand_path(File.dirname(__FILE__)) + '/test_helper'
 require 'models/projects_member'
 require 'models/user'
 require 'models/project'
+require 'models/country'
 
 class ModelAssociationTest < Test::Unit::TestCase
   def test_has_many_association_with_empty_models
@@ -46,5 +47,11 @@ class ModelAssociationTest < Test::Unit::TestCase
     assert_equal project, db_project
     assert_equal project.projects_members.size, db_project.projects_members.size
     assert_equal project.projects_members.first.user, db_project.projects_members.first.user
+  end
+  
+  def test_create_associated_has_and_belongs_to_models
+    user = Hickey.kiss :user => {:login => 'xli', :countries => [{:name => 'China'}]}
+    assert_equal 1, user.countries.size
+    assert_equal 'China', user.countries.first.name
   end
 end

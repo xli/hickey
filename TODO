@@ -5,6 +5,7 @@ Send suggestions for this list to iam@li-xiao.com
 === To Do
   * prepare multi-models domain
     * prepare belongs_and_has_many relationship models
+    * specify class by :class_name, :source
   * prepare with model validation
   * should be in transaction?
   * fast prepare by sql? really need it?
