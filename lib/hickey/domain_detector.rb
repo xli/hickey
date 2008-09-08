@@ -71,11 +71,5 @@ module Hickey
 
       owner
     end
-
-    def visit_array(klass, array)
-      array.collect do |o|
-        o.accept_for_hickey(klass, self)
-      end
-    end
   end
 end

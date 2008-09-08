@@ -7,7 +7,9 @@ module Hickey
     end
     module Array
       def accept_for_hickey(klass, visitor)
-        visitor.visit_array(klass, self)
+        collect do |o|
+          o.accept_for_hickey(klass, visitor)
+        end
       end
     end
   end

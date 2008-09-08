@@ -1,4 +1,3 @@
-puts "Using native PostgreSQL"
 require 'logger'
 
 RAILS_DEFAULT_LOGGER = Logger.new(File.expand_path(File.dirname(__FILE__)) + '/debug.log')
