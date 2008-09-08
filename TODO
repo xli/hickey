@@ -5,12 +5,13 @@ Send suggestions for this list to iam@li-xiao.com
 === To Do
   * prepare multi-models domain
     * specify class by :class_name
-      * has_many
       * has_one
       * belongs_to
       * has_and_belongs_to_many
     * :source, :source_type options in has_many :through
+    * :through in has_one
     * polymorphic
+  * add callback and validate to all test models
   * composed_of
   * prepare with model validation
   * should be in transaction?
@@ -23,5 +24,7 @@ Send suggestions for this list to iam@li-xiao.com
     * prepare has_many relationship models
     * prepare belongs_to relationship models
     * prepare belongs_and_has_many relationship models
+    * specify class by :class_name
+      * has_many
 
 (moved DONE list to CHANGES file)

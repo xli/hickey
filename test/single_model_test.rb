@@ -14,12 +14,12 @@ class SingleModelTest < Test::Unit::TestCase
     assert_equal Simple.find(:first), result
   end
 
-  def test_should_return_created_domains
+  def test_should_return_created_domain
     result = Hickey.kiss(:simple => [{}])
     assert_equal Simple.find(:all), result
   end
 
-  def test_should_return_created_domains_as_hash_when_kiss_multi_models
+  def test_should_return_created_domain_as_hash_when_kiss_multi_models
     result = Hickey.kiss(:simple => {}, :user => {:login => 'xli'})
     assert_equal({:simple => Simple.find(:first), :user => User.find(:first)}, result)
   end
@@ -80,7 +80,8 @@ class SingleModelTest < Test::Unit::TestCase
 
   def test_should_ignore_created_timestamp_attributes_when_they_have_value
     t = Time.parse("1/1/2000")
-    project = Hickey.kiss(:project => {:identifier => 'hickey', :created_on => t, :created_at => t})
+    Hickey.kiss(:project => {:identifier => 'hickey', :created_on => t, :created_at => t})
+
     assert_equal t, project.created_on
     assert_equal t, project.created_at
   end

@@ -12,6 +12,50 @@ require 'active_record/test_case'
 require 'database_config'
 require 'growling_test'
 
+module Hickey
+  module ShouldBypassCallbacksAndValidations
+    def self.included(base)
+      base.extend(ClassMethods)
+    end
+    
+    module ClassMethods
+      def should_bypass_all_callbacks_and_validations
+        before_save :should_be_bypass
+        after_save :should_be_bypass
+      end
+    end
+    
+    def validate
+      should_be_bypass
+    end
+
+    def should_be_bypass
+      raise 'should be bypass'
+    end
+  end
+end
+
+ActiveRecord::Base.send(:include, Hickey::ShouldBypassCallbacksAndValidations)
+
 class Test::Unit::TestCase
   self.use_transactional_fixtures = true
+  
+  def method_missing(method, *args)
+    if models.include?(method.to_s)
+      method.to_s.classify.constantize.find(:first)
+    else
+      super
+    end
+  end
+  
+  def models
+    return @models if defined?(@models)
+    @models = []
+    ObjectSpace.each_object(Class) do |klass|
+      if(ActiveRecord::Base > klass)
+        @models << klass.name.underscore
+      end
+    end
+    @models
+  end
 end

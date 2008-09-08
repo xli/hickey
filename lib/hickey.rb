@@ -6,13 +6,13 @@ rescue LoadError
   require 'active_record'
 end
 
+require 'hickey/acceptor'
 require 'hickey/active_record_ext'
-require 'hickey/model'
+require 'hickey/domain_detector'
 
 module Hickey
-  def kiss(domains)
-    r = Model.kiss_domains(domains)
-    r.size == 1 ? r.values.first : r
+  def kiss(domain)
+    DomainDetector.new.visit(domain)
   end
   
   module_function :kiss

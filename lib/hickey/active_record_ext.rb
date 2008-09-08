@@ -12,6 +12,30 @@ module Hickey
       end
     end
   end
+  
+  module Reflection
+    def self.included(base)
+      base.extend(ClassMethods)
+      base.instance_eval do
+        class <<self
+          alias_method_chain :create_reflection, :caching_reflection_instance
+        end
+      end
+    end
+    
+    module ClassMethods
+      def __reflection__
+        @__reflection__ ||= {}
+      end
+      
+      def create_reflection_with_caching_reflection_instance(macro, name, options, active_record, &block)
+        returning create_reflection_without_caching_reflection_instance(macro, name, options, active_record, &block) do |reflection|
+          __reflection__[name] = reflection
+        end
+      end
+    end
+  end
 end
 
 ActiveRecord::Base.send(:include, Hickey::Timestamp)
+ActiveRecord::Base.send(:include, Hickey::Reflection)
