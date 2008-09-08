@@ -6,11 +6,11 @@ Send suggestions for this list to iam@li-xiao.com
   * prepare multi-models domain
     * specify class by :class_name
       * has_one
-      * belongs_to
       * has_and_belongs_to_many
     * :source, :source_type options in has_many :through
     * :through in has_one
     * polymorphic
+    * foreign_key
   * add callback and validate to all test models
   * composed_of
   * prepare with model validation
@@ -26,5 +26,6 @@ Send suggestions for this list to iam@li-xiao.com
     * prepare belongs_and_has_many relationship models
     * specify class by :class_name
       * has_many
+      * belongs_to
 
 (moved DONE list to CHANGES file)
