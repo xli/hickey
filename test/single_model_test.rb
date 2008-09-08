@@ -1,7 +1,4 @@
 require File.expand_path(File.dirname(__FILE__)) + '/test_helper'
-require 'models/simple'
-require 'models/user'
-require 'models/project'
 
 class SingleModelTest < Test::Unit::TestCase
   def test_create_simple_model

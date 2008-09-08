@@ -16,10 +16,8 @@ module Hickey
   module Reflection
     def self.included(base)
       base.extend(ClassMethods)
-      base.instance_eval do
-        class <<self
-          alias_method_chain :create_reflection, :caching_reflection_instance
-        end
+      class <<base
+        alias_method_chain :create_reflection, :caching_reflection_instance
       end
     end
     
