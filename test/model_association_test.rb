@@ -11,7 +11,7 @@ class ModelAssociationTest < Test::Unit::TestCase
     assert_equal project.projects_members.first.user, db_project.projects_members.first.user
   end
 
-  def test_create_associated_has_many_association_and_belongs_to_association_models
+  def test_create_associated_both_has_many_association_and_belongs_to_association_models
     Hickey.kiss :project => {:identifier => 'hickey', :projects_members => [:user => {:login => 'xli'}]}
     assert_equal 1, project.projects_members.size
     assert_not_nil project.projects_members.first.user

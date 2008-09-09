@@ -45,6 +45,8 @@ require 'models/project'
 require 'models/country'
 require 'models/topic'
 require 'models/simple'
+require 'models/address'
+require 'models/author'
 
 class Test::Unit::TestCase
   self.use_transactional_fixtures = true

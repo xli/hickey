@@ -10,9 +10,25 @@ module Hickey
     
     module HasOneAssociation
       def has_one(owner, reflection, attr_value)
+        return has_one_through(owner, reflection, attr_value) if reflection.through_reflection
+
         Proc.new do
           attr_value[reflection.primary_key_name] = owner.id
+          if reflection.options[:as]
+            attr_value["#{reflection.options[:as]}_type"] = owner.class.base_class.name.to_s
+          end
           attr_value.accept_for_hickey(reflection.klass, self)
+        end
+      end
+    end
+    
+    module HasOneThroughAssociation
+      def has_one_through(owner, reflection, attr_value)
+        through_reflection = reflection.through_reflection
+        Proc.new do
+          target = attr_value.accept_for_hickey(reflection.klass, self)
+          association = ActiveRecord::Associations::HasOneThroughAssociation.new(owner, reflection).send(:construct_join_attributes, target)
+          association.accept_for_hickey(through_reflection.klass, self)
         end
       end
     end
@@ -61,6 +77,7 @@ module Hickey
     class Base
       include BelongsToAssociation
       include HasOneAssociation
+      include HasOneThroughAssociation
       include HasManyAssociation
       include HasManyThroughAssociation
       include HasAndBelongsToManyAssociation
