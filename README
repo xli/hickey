@@ -2,23 +2,19 @@
 
 Supporting Hickey version: 0.0.x
 
-Hickey is a DSL for preparing Rails test database.
+Hickey is a tool for initializing Rails database models by simple hash.
 
 == Installation
 
-=== Normal Installation
-
-You can install Hickey with the following command.
-
-  % ruby install.rb
-
-from its distribution directory.
-
 === GEM Installation
 
-Download and install Hickey with the following.
+Run the following if you haven't already:
 
-   gem install --remote hickey
+  gem sources -a http://gems.github.com
+
+Install the gem:
+
+  sudo gem install xli-hickey
 
 == License
 
