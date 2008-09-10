@@ -90,20 +90,26 @@ module Hickey
         r.size == 1 ? r.values.first : r
       end
 
-      def visit_hash(klass, hash)
-        klass = klass.to_s.classify.constantize unless klass.is_a?(Class)
-        owner = klass.new
+      def visit_hash(attribute, hash)
+        owner = if attribute.is_a?(Class)
+          attribute.new
+        elsif attribute.is_a?(Symbol) or attribute.is_a?(String)
+          attribute.to_s.classify.constantize.new
+        else
+          attribute
+        end
         after_created = []
 
         hash.each do |key, value|
-          if reflection = klass.__reflection__[key]
+          if reflection = owner.class.__reflection__[key]
             after_created << send(reflection.macro, owner, reflection, value)
           else
             owner.send("#{key}=", value)
           end
         end
         owner.attach_timestamps
-        owner.send(:create_without_callbacks)
+        
+        owner.send(owner.new_record? ? :create_without_callbacks : :update_without_callbacks)
 
         after_created.each(&:call)
 

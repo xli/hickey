@@ -82,4 +82,12 @@ class SingleModelTest < Test::Unit::TestCase
     assert_equal t, project.created_on
     assert_equal t, project.created_at
   end
+  
+  def test_should_update_object_specified
+    project = Hickey.kiss(:project => {:identifier => 'hickey'})
+    Hickey.kiss project => {:identifier => 'new project identifier'}
+    project.reload
+    
+    assert_equal 'new project identifier', project.identifier
+  end
 end
