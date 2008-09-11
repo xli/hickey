@@ -32,6 +32,7 @@ module Hickey
     end
 
     def should_be_bypass
+      return if $testing_active_record
       raise 'should be bypass'
     end
   end
@@ -47,6 +48,7 @@ require 'models/topic'
 require 'models/simple'
 require 'models/address'
 require 'models/author'
+require 'models/writer'
 
 class Test::Unit::TestCase
   self.use_transactional_fixtures = true
@@ -57,6 +59,13 @@ class Test::Unit::TestCase
     else
       super
     end
+  end
+  
+  def with_testing_active_record
+    $testing_active_record = true
+    yield
+  ensure
+    $testing_active_record = false
   end
   
   def models
