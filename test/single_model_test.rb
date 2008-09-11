@@ -90,4 +90,11 @@ class SingleModelTest < Test::Unit::TestCase
     
     assert_equal 'new project identifier', project.identifier
   end
+
+  def test_should_update_object_specified_has_association
+    user = Hickey.kiss(:user => {:login => 'xli', :admin => true})
+    Hickey.kiss(:project => {:identifier => 'hickey', :users => [user]})
+    
+    assert_equal 'xli', project.users.first.login
+  end
 end

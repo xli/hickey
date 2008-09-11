@@ -12,8 +12,14 @@ module Hickey
         end
       end
     end
+    module ReturnSelf
+      def accept_for_hickey(klass, visitor)
+        self
+      end
+    end
   end
 end
 
 Array.send(:include, Hickey::Acceptor::Array)
 Hash.send(:include, Hickey::Acceptor::Hash)
+ActiveRecord::Base.send(:include, Hickey::Acceptor::ReturnSelf)
