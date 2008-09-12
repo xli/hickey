@@ -35,4 +35,16 @@ class HasManyAssociationTest < Test::Unit::TestCase
     assert_equal 2, writer.addresses.size
     assert_equal ['BeiJing', 'ShangHai'].sort, writer.addresses.collect(&:location).sort
   end
+
+  def test_option_as
+    Hickey.kiss :writer => {:topics => [{:title => 'Hello world'}, {:title => 'Hello world again'}]}
+    assert_equal ['Hello world', 'Hello world again'].sort, writer.topics.collect(&:title).sort
+  end
+  
+  def test_option_through_and_as
+    Hickey.kiss :writer => {:disscutions => [{:speaker => {:login => 'xli'}}, {:speaker => {:login => 'oo'}}]}
+    speakers = writer.disscutions.collect(&:speaker)
+    assert_equal 2, speakers.size
+    assert_equal ['xli', 'oo'].sort, [speakers.first.login, speakers.last.login].sort
+  end
 end

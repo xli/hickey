@@ -40,6 +40,9 @@ module Hickey
         Proc.new do
           attr_value.each do |obj|
             obj[reflection.primary_key_name] = owner.id
+            if reflection.options[:as]
+              obj["#{reflection.options[:as]}_type"] = owner.class.base_class.name.to_s
+            end
           end
           attr_value.accept_for_hickey(reflection.klass, self)
         end

@@ -30,6 +30,10 @@ class HasOneAssociationTest < Test::Unit::TestCase
     Hickey.kiss :disscution => {:speaker => {:login => 'xli'}}
     assert_equal 'xli', disscution.speaker.login
   end
+  
+  def test_through_and_as
+    # fail('do we need this?')
+  end
 
   #active_record couldn't work on has_one :through belongs to
   def xtest_with_option_through_belongs_to
