@@ -97,4 +97,10 @@ class SingleModelTest < Test::Unit::TestCase
     
     assert_equal 'xli', project.users.first.login
   end
+
+  def test_should_raise_error_when_create_model_failed
+    assert_raise ActiveRecord::StatementInvalid do
+      Hickey.kiss(:property_definition => {})
+    end
+  end
 end
