@@ -47,4 +47,11 @@ class HasManyAssociationTest < Test::Unit::TestCase
     assert_equal 2, speakers.size
     assert_equal ['xli', 'oo'].sort, [speakers.first.login, speakers.last.login].sort
   end
+
+  def test_specifying_type_attribute_for_single_table_inheritance
+    Hickey.kiss :project => {:all_property_definitions => [{:name => 'status', :type => 'EnumPropertyDefinition'}, {:name => 'owner', :type => 'UserPropertyDefinition'}]}
+    
+    assert_equal ['status', 'owner'].sort, project.all_property_definitions.collect(&:name).sort
+  end
+  
 end

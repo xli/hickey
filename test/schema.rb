@@ -56,4 +56,10 @@ ActiveRecord::Schema.define do
     t.column "id",          :integer
     t.column 'topic_id',    :integer
   end
+
+  create_table "property_definitions", :force => true do |t|
+    t.column "type",        :string
+    t.column "project_id",  :integer,                    :null => false
+    t.column "name",        :string,  :default => "",    :null => false
+  end
 end

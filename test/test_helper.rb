@@ -49,6 +49,7 @@ require 'models/simple'
 require 'models/address'
 require 'models/author'
 require 'models/writer'
+require 'models/property_definition'
 
 class Test::Unit::TestCase
   self.use_transactional_fixtures = true

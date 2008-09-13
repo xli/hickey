@@ -26,5 +26,6 @@ Send suggestions for this list to iam@li-xiao.com
     * :through in has_one
     * polymorphic
     * foreign_key
+  * Single table inheritance
 
 (moved DONE list to CHANGES file)
