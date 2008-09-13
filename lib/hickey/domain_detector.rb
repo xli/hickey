@@ -104,7 +104,7 @@ module Hickey
         after_created = []
 
         hash.each do |key, value|
-          if reflection = owner.class.__reflection__[key]
+          if reflection = owner.class.reflections[key]
             after_created << send(reflection.macro, owner, reflection, value)
           else
             owner.send("#{key}=", value)
