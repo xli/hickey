@@ -3,6 +3,10 @@
 Send suggestions for this list to iam@li-xiao.com
 
 === To Do
+  * Single table inheritance
+    * has one
+    * belongs_to
+    * has_and_belongs_to_many
   * log of creating domain progress for problem detecting
   * auto_generate_position_for_model_acts_as_list
   * prepare multi-models domain
@@ -29,5 +33,6 @@ Send suggestions for this list to iam@li-xiao.com
     * polymorphic
     * foreign_key
   * Single table inheritance
+    * has many
 
 (moved DONE list to CHANGES file)
