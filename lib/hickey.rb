@@ -15,5 +15,9 @@ module Hickey
     DomainDetector::Base.new.visit(domain)
   end
   
-  module_function :kiss
+  def lipstick(domain)
+    DomainDetector::Base.configurations = domain
+  end
+  
+  module_function :kiss, :lipstick
 end

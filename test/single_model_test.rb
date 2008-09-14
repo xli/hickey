@@ -52,7 +52,7 @@ class SingleModelTest < Test::Unit::TestCase
     Hickey.kiss(:simple => {})
   ensure
     Simple.class_eval do
-      def before_save_callback
+      def should_be_bypass
       end
     end
   end

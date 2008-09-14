@@ -11,7 +11,9 @@ Send suggestions for this list to iam@li-xiao.com
   * auto_generate_position_for_model_acts_as_list
   * prepare multi-models domain
     * :source, :source_type options in has_many :through
-  * add callback and validate to all test models
+  * enable callbacks
+    * enable specific callbacks
+  * enable validations
   * composed_of
   * prepare with model validation
   * should be in transaction?
@@ -34,5 +36,7 @@ Send suggestions for this list to iam@li-xiao.com
     * foreign_key
   * Single table inheritance
     * has many
+  * enable callbacks
+    * enable all callbacks
 
 (moved DONE list to CHANGES file)

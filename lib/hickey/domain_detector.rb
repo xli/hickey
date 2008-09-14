@@ -85,6 +85,9 @@ module Hickey
       include HasManyThroughAssociation
       include HasAndBelongsToManyAssociation
       
+      cattr_accessor :configurations, :instance_writer => false
+      @@configurations = {}
+      
       def visit(domain)
         r = {}
         domain.each do |key, value|
@@ -93,6 +96,30 @@ module Hickey
         r.size == 1 ? r.values.first : r
       end
       
+      def visit_hash(attribute, record)
+        owner = new_instance(attribute, record)
+        after_created = []
+
+        record.each do |key, value|
+          if reflection = owner.class.reflections[key]
+            after_created << send(reflection.macro, owner, reflection, value)
+          else
+            owner.send("#{key}=", value)
+          end
+        end
+
+        owner.attach_timestamps
+        config = @@configurations[owner.class.name.underscore.to_sym] || {}
+        if config[:callbacks] == :all
+          owner.save_without_validation!
+        else
+          owner.send(owner.new_record? ? :create_without_callbacks : :update_without_callbacks)
+        end
+        after_created.each(&:call)
+        owner
+      end
+      
+      private
       def new_instance(class_or_instance, record)
         return class_or_instance unless ['Class', 'String', 'Symbol'].include?(class_or_instance.class.name)
         
@@ -112,23 +139,6 @@ module Hickey
         end
       end
 
-      def visit_hash(attribute, record)
-        owner = new_instance(attribute, record)
-        after_created = []
-
-        record.each do |key, value|
-          if reflection = owner.class.reflections[key]
-            after_created << send(reflection.macro, owner, reflection, value)
-          else
-            owner.send("#{key}=", value)
-          end
-        end
-
-        owner.attach_timestamps
-        owner.send(owner.new_record? ? :create_without_callbacks : :update_without_callbacks)
-        after_created.each(&:call)
-        owner
-      end
     end
   end
 end
