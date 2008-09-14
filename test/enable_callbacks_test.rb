@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__)) + '/test_helper'
 class EnableCallbacksTest < Test::Unit::TestCase
   
   def teardown
-    Hickey.lipstick({})
+    Hickey.lipstick.clear
     Simple.public_instance_methods(false).each do |method|
       return if method == 'id'
       Simple.class_eval "def #{method};end"

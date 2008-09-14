@@ -15,7 +15,7 @@ module Hickey
     DomainDetector::Base.new.visit(domain)
   end
   
-  def lipstick(domain)
+  def lipstick(domain={})
     DomainDetector::Base.configurations.merge! domain
   end
   
