@@ -103,4 +103,9 @@ class SingleModelTest < Test::Unit::TestCase
       Hickey.kiss(:property_definition => {}) #type should not be nil
     end
   end
+  
+  def test_redefine_accessor_method_for_column
+    Hickey.kiss(:prisoner => {:login => 'xli'})
+    assert_equal 'xli', prisoner.login
+  end
 end
