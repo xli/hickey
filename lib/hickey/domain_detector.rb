@@ -104,7 +104,7 @@ module Hickey
           if reflection = owner.class.reflections[key]
             after_created << send(reflection.macro, owner, reflection, value)
           else
-            owner.write_attribute key, value
+            owner.send :write_attribute, key, value
           end
         end
 
