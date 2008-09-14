@@ -16,7 +16,7 @@ module Hickey
   end
   
   def lipstick(domain)
-    DomainDetector::Base.configurations = domain
+    DomainDetector::Base.configurations.merge! domain
   end
   
   module_function :kiss, :lipstick
