@@ -92,30 +92,41 @@ module Hickey
         end
         r.size == 1 ? r.values.first : r
       end
-
-      def visit_hash(attribute, hash)
-        owner = if attribute.is_a?(Class)
-          attribute.new
-        elsif attribute.is_a?(Symbol) or attribute.is_a?(String)
-          attribute.to_s.classify.constantize.new
+      
+      def new_instance(class_or_instance, record)
+        return class_or_instance unless ['Class', 'String', 'Symbol'].include?(class_or_instance.class.name)
+        
+        klass = class_or_instance.is_a?(Class) ? class_or_instance : class_or_instance.to_s.classify.constantize
+        if (subclass_name = record[klass.inheritance_column.to_sym]).blank?
+          klass.new
         else
-          attribute
+          begin
+            subclass_name.to_s.classify.constantize.new
+          rescue NameError
+            raise ActiveRecord::SubclassNotFound,
+              "The single-table inheritance mechanism failed to locate the subclass: '#{subclass_name}'. " +
+              "This error is raised because the column '#{klass.inheritance_column}' is reserved for storing the class in case of inheritance. " +
+              "Please rename this column if you didn't intend it to be used for storing the inheritance class " +
+              "or overwrite #{klass.name}.inheritance_column to use another column for that information."
+          end
         end
+      end
+
+      def visit_hash(attribute, record)
+        owner = new_instance(attribute, record)
         after_created = []
 
-        hash.each do |key, value|
+        record.each do |key, value|
           if reflection = owner.class.reflections[key]
             after_created << send(reflection.macro, owner, reflection, value)
           else
             owner.send("#{key}=", value)
           end
         end
+
         owner.attach_timestamps
-        
         owner.send(owner.new_record? ? :create_without_callbacks : :update_without_callbacks)
-
         after_created.each(&:call)
-
         owner
       end
     end

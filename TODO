@@ -4,6 +4,7 @@ Send suggestions for this list to iam@li-xiao.com
 
 === To Do
   * log of creating domain progress for problem detecting
+  * auto_generate_position_for_model_acts_as_list
   * prepare multi-models domain
     * :source, :source_type options in has_many :through
   * add callback and validate to all test models

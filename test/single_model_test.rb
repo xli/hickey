@@ -100,7 +100,7 @@ class SingleModelTest < Test::Unit::TestCase
 
   def test_should_raise_error_when_create_model_failed_by_sql_error
     assert_raise ActiveRecord::StatementInvalid do
-      Hickey.kiss(:property_definition => {})
+      Hickey.kiss(:property_definition => {}) #type should not be nil
     end
   end
 end

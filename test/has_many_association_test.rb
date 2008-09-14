@@ -54,4 +54,16 @@ class HasManyAssociationTest < Test::Unit::TestCase
     assert_equal ['status', 'owner'].sort, project.all_property_definitions.collect(&:name).sort
   end
   
+  def test_subclass_relationship_of_single_table_inheritance
+    Hickey.kiss :property_definition => {:type => 'EnumPropertyDefinition', :enum_values => [{:value => 'new'}, {:value => 'open'}]}
+    
+    assert_equal ['new', 'open'].sort, property_definition.enum_values.collect(&:value).sort
+  end
+  
+  def test_should_raise_active_record_subclass_not_found_error_when_cant_find_subclass
+    assert_raise ActiveRecord::SubclassNotFound do
+      Hickey.kiss :property_definition => {:type => 'DatePropertyDefinition'}
+    end
+  end
+  
 end

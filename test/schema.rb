@@ -58,8 +58,14 @@ ActiveRecord::Schema.define do
   end
 
   create_table "property_definitions", :force => true do |t|
-    t.column "type",        :string
-    t.column "project_id",  :integer,                    :null => false
+    t.column "type",        :string,    :null => false
+    t.column "project_id",  :integer
     t.column "name",        :string,  :default => "",    :null => false
+  end
+
+  create_table "enum_values", :force => true do |t|
+    t.column "value",                  :string,  :default => "", :null => false
+    t.column "property_definition_id", :integer
+    t.column "position",               :integer
   end
 end
