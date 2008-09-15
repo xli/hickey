@@ -1,6 +1,5 @@
 class PropertyDefinition < ActiveRecord::Base
   belongs_to :project
-  should_bypass_all_callbacks_and_validations
 end
 
 class EnumPropertyDefinition < PropertyDefinition
@@ -16,3 +15,7 @@ class EnumValue < ActiveRecord::Base
   belongs_to :property_definition, :class_name => "EnumeratedPropertyDefinition", :foreign_key => "property_definition_id"
   should_bypass_all_callbacks_and_validations
 end
+
+class DatePropertyDefinition < PropertyDefinition
+end
+

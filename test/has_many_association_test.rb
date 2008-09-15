@@ -62,7 +62,7 @@ class HasManyAssociationTest < Test::Unit::TestCase
   
   def test_should_raise_active_record_subclass_not_found_error_when_cant_find_subclass
     assert_raise ActiveRecord::SubclassNotFound do
-      Hickey.kiss :property_definition => {:type => 'DatePropertyDefinition'}
+      Hickey.kiss :property_definition => {:type => 'NotPropertyDefinition'}
     end
   end
   

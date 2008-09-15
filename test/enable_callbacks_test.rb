@@ -95,6 +95,23 @@ class EnableCallbacksTest < Test::Unit::TestCase
     Hickey.kiss(simple => {})
     assert_equal [], User.find(:all).collect(&:login)
   end
+  
+  def test_should_enable_configuration_of_invoking_all_callbacks_for_all_subclasses
+    Hickey.lipstick(:property_definition => {:callbacks => :all})
+    DatePropertyDefinition.class_eval do
+      after_validation :create_user_after_validation
+      def create_user_after_validation
+        Hickey.kiss(:user => {:login => 'create_user_after_validation'})
+      end
+      def validate
+        raise 'should bypass'
+      end
+    end
+
+    Hickey.kiss(:property_definition => {:type => 'DatePropertyDefinition'})
+    
+    assert_equal ['create_user_after_validation'], User.find(:all).collect(&:login)
+  end
 
   def test_invoke_callback_specified_after_configured
     #do we need this?

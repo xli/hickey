@@ -113,7 +113,7 @@ module Hickey
             true
           end
         end
-        config = @@configurations[owner.class.name.underscore.to_sym] || {}
+        config = @@configurations[owner.class.name.underscore.to_sym] || @@configurations[owner.class.base_class.name.underscore.to_sym] || {}
         unless config[:callbacks] == :all
           owner.instance_eval do
             def callback(*args)
