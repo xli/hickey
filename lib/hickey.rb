@@ -7,7 +7,6 @@ rescue LoadError
 end
 
 require 'hickey/acceptor'
-require 'hickey/active_record_ext'
 require 'hickey/domain_detector'
 
 module Hickey

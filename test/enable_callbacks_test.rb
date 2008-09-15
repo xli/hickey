@@ -5,12 +5,12 @@ class EnableCallbacksTest < Test::Unit::TestCase
   def teardown
     Hickey.lipstick.clear
     Simple.public_instance_methods(false).each do |method|
-      return if method == 'id'
+      next if method == 'id'
       Simple.class_eval "def #{method};end"
     end
   end
   
-  def test_invoke_all_callbacks_after_configured
+  def test_invoke_before_save_and_after_save_after_configured_all_callbacks
     Hickey.lipstick(:simple => {:callbacks => :all})
     Simple.class_eval do
       before_save :create_user_before_save
@@ -30,7 +30,72 @@ class EnableCallbacksTest < Test::Unit::TestCase
 
     assert_equal ['create_user_before_save', 'create_user_after_save'].sort, User.find(:all).collect(&:login).sort
   end
+
+  def test_invoke_before_validation_on_create_after_configured_all_callbacks
+    Hickey.lipstick(:simple => {:callbacks => :all})
+    Simple.class_eval do
+      before_validation_on_create :create_user_before_validation_on_create
+      def create_user_before_validation_on_create
+        Hickey.kiss(:user => {:login => 'create_user_before_validation_on_create'})
+      end
+      def validate
+        raise 'should bypass'
+      end
+    end
+
+    Hickey.kiss(:simple => {})
+    assert_equal ['create_user_before_validation_on_create'], User.find(:all).collect(&:login)
+  end
   
+  def test_invoke_before_validation_after_configured_all_callbacks
+    Hickey.lipstick(:simple => {:callbacks => :all})
+    Simple.class_eval do
+      before_validation :create_user_before_validation
+      def create_user_before_validation
+        Hickey.kiss(:user => {:login => 'create_user_before_validation'})
+      end
+      def validate
+        raise 'should bypass'
+      end
+    end
+
+    Hickey.kiss(:simple => {})
+    assert_equal ['create_user_before_validation'], User.find(:all).collect(&:login)
+  end
+  
+  def test_invoke_before_validation_after_configured_all_callbacks
+    Hickey.lipstick(:simple => {:callbacks => :all})
+    Simple.class_eval do
+      after_validation :create_user_after_validation
+      def create_user_after_validation
+        Hickey.kiss(:user => {:login => 'create_user_after_validation'})
+      end
+      def validate
+        raise 'should bypass'
+      end
+    end
+
+    Hickey.kiss(:simple => {})
+    assert_equal ['create_user_after_validation'], User.find(:all).collect(&:login)
+  end
+  
+  def test_should_not_callback_before_validation_on_create_if_pass_in_existed_model
+    simple = Hickey.kiss(:simple => {})
+    Hickey.lipstick(:simple => {:callbacks => :all})
+    Simple.class_eval do
+      before_validation_on_create :create_user_before_validation_on_create
+      def create_user_before_validation_on_create
+        Hickey.kiss(:user => {:login => 'create_user_before_validation_on_create'})
+      end
+      def validate
+        raise 'should bypass'
+      end
+    end
+
+    Hickey.kiss(simple => {})
+    assert_equal [], User.find(:all).collect(&:login)
+  end
+
   def test_invoke_callback_specified_after_configured
     #do we need this?
   end

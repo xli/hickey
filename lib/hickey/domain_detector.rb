@@ -108,13 +108,21 @@ module Hickey
           end
         end
 
-        owner.attach_timestamps
-        config = @@configurations[owner.class.name.underscore.to_sym] || {}
-        if config[:callbacks] == :all
-          owner.save_without_validation!
-        else
-          owner.send(owner.new_record? ? :create_without_callbacks : :update_without_callbacks)
+        owner.instance_eval do
+          def valid_without_callbacks?
+            true
+          end
         end
+        config = @@configurations[owner.class.name.underscore.to_sym] || {}
+        unless config[:callbacks] == :all
+          owner.instance_eval do
+            def callback(*args)
+              true
+            end
+          end
+        end
+        owner.save_with_validation!
+
         after_created.each(&:call)
         owner
       end
