@@ -20,6 +20,8 @@ module Hickey
             owner.send :write_attribute, key, value
           end
         end
+        
+        #bypass new alias method chain of save! method
         owner.save_with_validation!
 
         after_created.each(&:call)
