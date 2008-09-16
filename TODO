@@ -3,6 +3,10 @@
 Send suggestions for this list to iam@li-xiao.com
 
 === To Do
+  * name prefix: find or create
+    * find
+    * create as default
+  * enable specified callbacks
   * Single table inheritance
     * has one
     * belongs_to
