@@ -10,19 +10,6 @@ module Hickey
       end
       
       def visit_hash(attribute, record)
-        if record.keys.first == :create
-          record = record[record.keys.first]
-        elsif record.keys.first == :find
-          record = record[:find]
-          conditions = record.inject({}) do |c, entity|
-            key, value = entity
-            unless [Hash, Array].include?(value.class)
-              c[key] = value
-            end
-            c
-          end
-          attribute = compute_type(attribute, record).find(:first, :conditions => conditions)
-        end
         owner = new_instance(attribute, record)
         after_created = []
 
