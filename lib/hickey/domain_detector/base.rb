@@ -10,6 +10,19 @@ module Hickey
       end
       
       def visit_hash(attribute, record)
+        if record.keys.first == :create
+          record = record[record.keys.first]
+        elsif record.keys.first == :find
+          record = record[:find]
+          conditions = record.inject({}) do |c, entity|
+            key, value = entity
+            unless [Hash, Array].include?(value.class)
+              c[key] = value
+            end
+            c
+          end
+          attribute = compute_type(attribute, record).find(:first, :conditions => conditions)
+        end
         owner = new_instance(attribute, record)
         after_created = []
 
@@ -31,13 +44,16 @@ module Hickey
       private
       def new_instance(class_or_instance, record)
         return class_or_instance unless ['Class', 'String', 'Symbol'].include?(class_or_instance.class.name)
-        
-        klass = class_or_instance.is_a?(Class) ? class_or_instance : class_or_instance.to_s.classify.constantize
+        compute_type(class_or_instance, record).new
+      end
+      
+      def compute_type(class_name, record)
+        klass = class_name.is_a?(Class) ? class_name : class_name.to_s.classify.constantize
         if (subclass_name = record[klass.inheritance_column.to_sym]).blank?
-          klass.new
+          klass
         else
           begin
-            subclass_name.to_s.classify.constantize.new
+            subclass_name.to_s.classify.constantize
           rescue NameError
             raise ActiveRecord::SubclassNotFound,
               "The single-table inheritance mechanism failed to locate the subclass: '#{subclass_name}'. " +
@@ -47,7 +63,6 @@ module Hickey
           end
         end
       end
-
     end
   end
 end

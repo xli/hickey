@@ -104,7 +104,7 @@ class SingleModelTest < Test::Unit::TestCase
     end
   end
   
-  def test_redefine_accessor_method_for_column
+  def test_should_work_after_redefined_accessor_method_for_column
     Hickey.kiss(:prisoner => {:login => 'xli'})
     assert_equal 'xli', prisoner.login
   end
