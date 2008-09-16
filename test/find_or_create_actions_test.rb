@@ -52,4 +52,11 @@ class FindOrCreateActionsTest < Test::Unit::TestCase
     
     assert_equal 1, User.count(:all)
   end
+  
+  def test_find_or_create
+    Hickey.kiss(:simple => {:find_or_create => {}})
+    assert_equal 1, Simple.count(:all)
+    Hickey.kiss(:simple => {:find_or_create => {}})
+    assert_equal 1, Simple.count(:all)
+  end
 end

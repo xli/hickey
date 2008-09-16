@@ -11,6 +11,5 @@ Hickey::DomainDetector::Base.class_eval do
   include Hickey::DomainDetector::HasManyThroughAssociation
   include Hickey::DomainDetector::HasAndBelongsToManyAssociation
   include Hickey::DomainDetector::Configurable
-  include Hickey::DomainDetector::Actions::Create
-  include Hickey::DomainDetector::Actions::Find
+  include Hickey::DomainDetector::Actions
 end

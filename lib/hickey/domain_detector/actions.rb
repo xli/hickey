@@ -1,41 +1,36 @@
 module Hickey
   module DomainDetector
     module Actions
-      
-      module Find
-        def self.included(base)
-          base.send(:alias_method_chain, :visit_hash, :find_action)
-        end
-        
-        def visit_hash_with_find_action(attribute, record)
-          if record.keys.first == :find
-            record = record[:find]
-            conditions = record.inject({}) do |c, entity|
-              key, value = entity
-              unless [Hash, Array].include?(value.class)
-                c[key] = value
-              end
-              c
-            end
-            attribute = compute_type(attribute, record).find(:first, :conditions => conditions)
-          end
-          visit_hash_without_find_action(attribute, record)
-        end
+      def self.included(base)
+        base.send(:alias_method_chain, :visit_hash, :find_or_create_actions)
       end
       
-      module Create
-        def self.included(base)
-          base.send(:alias_method_chain, :visit_hash, :create_action)
-        end
-        
-        def visit_hash_with_create_action(attribute, record)
-          if record.keys.first == :create
-            record = record[:create]
+      def visit_hash_with_find_or_create_actions(attribute, record)
+        case record.keys.first
+        when :find
+          record = record[:find]
+          attribute = find_action(attribute, record)
+        when :create
+          record = record[:create]
+        when :find_or_create
+          record = record[:find_or_create]
+          if find_attribute = find_action(attribute, record)
+            attribute = find_attribute
           end
-          visit_hash_without_create_action(attribute, record)
         end
+        visit_hash_without_find_or_create_actions(attribute, record)
       end
       
+      def find_action(attribute, record)
+        conditions = record.inject({}) do |c, entity|
+          key, value = entity
+          unless [Hash, Array].include?(value.class)
+            c[key] = value
+          end
+          c
+        end
+        compute_type(attribute, record).find(:first, :conditions => conditions)
+      end
     end
   end
 end
