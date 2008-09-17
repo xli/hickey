@@ -50,6 +50,7 @@ require 'models/address'
 require 'models/author'
 require 'models/writer'
 require 'models/property_definition'
+require 'models/tag'
 
 class Test::Unit::TestCase
   self.use_transactional_fixtures = true

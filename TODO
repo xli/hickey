@@ -3,9 +3,8 @@
 Send suggestions for this list to iam@li-xiao.com
 
 === To Do
-  * name prefix: find or create
-    * find
-    * create as default
+  * with scope
+    * scope with user defined foreign_key id inside of model
   * enable specified callbacks
   * Single table inheritance
     * has one
@@ -42,5 +41,11 @@ Send suggestions for this list to iam@li-xiao.com
     * has many
   * enable callbacks
     * enable all callbacks
+  * actions: find or create
+    * find
+    * create as default
+    * find_or_create
+  * with scope
+    * simple scope with default model foreign_key id inside of model
 
 (moved DONE list to CHANGES file)

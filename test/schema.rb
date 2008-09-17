@@ -68,4 +68,21 @@ ActiveRecord::Schema.define do
     t.column "property_definition_id", :integer
     t.column "position",               :integer
   end
+
+  create_table "tags", :force => true do |t|
+    t.column "name",       :string,   :default => "", :null => false
+    t.column "project_id", :integer,                  :null => false
+  end
+
+  create_table "taggings", :force => true do |t|
+    t.column "tag_id",        :integer
+    t.column "taggable_id",   :integer
+    t.column "taggable_type", :string
+  end
+
+  create_table "cards", :force => true do |t|
+    t.column "name",       :string,   :default => "", :null => false
+    t.column "project_id", :integer,                  :null => false
+  end
+
 end

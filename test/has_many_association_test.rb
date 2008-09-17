@@ -42,10 +42,12 @@ class HasManyAssociationTest < Test::Unit::TestCase
   end
   
   def test_option_through_and_as
-    Hickey.kiss :writer => {:disscutions => [{:speaker => {:login => 'xli'}}, {:speaker => {:login => 'oo'}}]}
+    Hickey.kiss :writer => {:login => 'writer', :disscutions => [{:speaker => {:login => 'xli'}}, {:speaker => {:login => 'oo'}}]}
     speakers = writer.disscutions.collect(&:speaker)
+    assert_equal ['writer', 'xli', 'oo'].sort, User.find(:all).collect(&:login).sort
     assert_equal 2, speakers.size
-    assert_equal ['xli', 'oo'].sort, [speakers.first.login, speakers.last.login].sort
+    speakers = [speakers.first.login, speakers.last.login]
+    assert_equal ['xli', 'oo'].sort, speakers.sort
   end
 
   def test_specifying_type_attribute_for_single_table_inheritance
