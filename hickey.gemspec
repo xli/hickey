@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
 
   s.name = 'hickey'
   s.version = '0.0.1'
-  s.summary = "Hickey is a DSL for preparing Rails test database."
+  s.summary = "Hickey provides a simple way of preparing test data inside test for Rails project."
 
   s.add_dependency('activerecord', '>= 2.1.0')
   #### Which files are to be included in this gem?  Everything!  (Except SVN directories.)

@@ -2,7 +2,7 @@
 
 Supporting Hickey version: 0.0.x
 
-Hickey is a tool for initializing Rails database models by simple hash.
+Hickey provides a simple way of preparing test data inside your test for Rails project.
 
 == Installation
 
@@ -15,6 +15,62 @@ Run the following if you haven't already:
 Install the gem:
 
   sudo gem install xli-hickey
+  
+== Simple Examples
+
+=== Create single model
+
+  % Hickey.kiss(:user => {:login => 'xli', :admin => true})
+
+=== Create domain models
+
+Suppose we have the following models:
+  % class Project < ActiveRecord::Base
+  %   has_many :tags
+  %   has_many :cards
+  % end
+  % class Tag < ActiveRecord::Base
+  %   has_many :taggings, :class_name => '::Tagging'
+  %   belongs_to :project
+  % end
+  % 
+  % class Tagging < ActiveRecord::Base
+  %   belongs_to :tag
+  %   belongs_to :taggable, :polymorphic => true
+  % end
+  % 
+  % class Card < ActiveRecord::Base
+  %   has_many :taggings, :as => :taggable
+  %   belongs_to :project
+  % end
+
+We can create a domain in the test by the following code:
+  % Hickey.kiss :project => {
+  %   :identifier => 'hickey', :cards => [
+  %     {
+  %       :name => 'first card', 
+  %       :taggings => [{:tag => {:name => 'first_tag'}}],
+  %     },
+  %     {
+  %       :name => 'dont make me think',
+  %       :taggings => [{:tag => {:name => 'ignore me'}}]
+  %     }
+  %   ]
+  % }
+
+Another example for we want to create tag cards with one tag named 'first_tag':
+  % Hickey.kiss :project => {
+  %   :identifier => 'hickey', :cards => [
+  %     {
+  %       :name => 'first card', 
+  %       :taggings => [{:tag => {:find_or_create => {:name => 'first_tag'}}}],
+  %     },
+  %     {
+  %       :name => 'dont make me think',
+  %       :taggings => [{:tag => {:find_or_create => {:name => 'first_tag'}}}]
+  %     }
+  %   ]
+  % }
 
 == License
 
