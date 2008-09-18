@@ -3,10 +3,10 @@ $LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__))
 $LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__) + '/../lib')
 require 'hickey'
 TEST_ROOT       = File.expand_path(File.dirname(__FILE__))
-ASSETS_ROOT     = TEST_ROOT + "/empty"
-FIXTURES_ROOT   = TEST_ROOT + "/empty"
-MIGRATIONS_ROOT = TEST_ROOT + "/empty"
-SCHEMA_ROOT     = TEST_ROOT + "/empty"
+ASSETS_ROOT     = TEST_ROOT
+FIXTURES_ROOT   = TEST_ROOT
+MIGRATIONS_ROOT = TEST_ROOT
+SCHEMA_ROOT     = TEST_ROOT
 
 require 'active_record'
 require 'active_record/fixtures'
