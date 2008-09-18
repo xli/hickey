@@ -22,10 +22,12 @@ module Hickey
       end
       
       def find_action(attribute, record)
+        model_type = compute_type(attribute, record)
         conditions = record.inject({}) do |c, entity|
           key, value = entity
           unless [Hash, Array].include?(value.class)
-            c[key] = value
+            #added if to filter column name for fixing hickey on acitverecord 1.2.6
+            c[key] = value if model_type.column_names.include?(key.to_s)
           end
           c
         end

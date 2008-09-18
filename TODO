@@ -3,9 +3,9 @@
 Send suggestions for this list to iam@li-xiao.com
 
 === To Do
+  * specify item type by key name inside array list example: property_definitions => {:enum_prop_def => {:name => 'xx'}}
   * with scope
     * scope with user defined foreign_key id inside of model
-  * enable specified callbacks
   * Single table inheritance
     * has one
     * belongs_to

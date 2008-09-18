@@ -35,4 +35,22 @@ class WithScopeTest < Test::Unit::TestCase
     Hickey.kiss :writer => {:login => 'writer', :disscutions => [{:speaker => {:login => 'xli'}}, {:speaker => {:login => 'oo'}}]}
     assert_equal 2, writer.disscutions.collect(&:id).uniq.size
   end
+
+  def test_should_ignore_keys_that_dont_belong_to_model_in_the_scopes
+    project = Hickey.kiss :project => {
+      :identifier => 'hickey', :cards => [
+        {
+          :name => 'first card',
+          :taggings => [{:tag => {:find_or_create => {:name => 'first_tag'}}}],
+        },
+        {
+          :name => 'second card',
+          :taggings => [{:tag => {:find_or_create => {:name => 'first_tag'}}}],
+        }
+      ]
+    }
+    tag = project.cards.first.taggings.first.tag
+    assert_equal 'first_tag', tag.read_attribute('name')
+    assert_nil tag.read_attribute('card_id')
+  end
 end

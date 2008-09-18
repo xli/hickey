@@ -57,6 +57,12 @@ class SingleModelTest < Test::Unit::TestCase
     end
   end
 
+  def test_should_bypass_notifications
+    SimpleObserver.instance
+    Hickey.kiss(:simple => {})
+    assert_equal 1, Simple.count(:all)
+  end
+
   def test_create_model_with_attributes
     Hickey.kiss(:user => {:login => 'xli', :admin => true})
     user = User.find_by_login_and_admin('xli', true)

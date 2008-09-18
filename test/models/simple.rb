@@ -8,3 +8,19 @@ class Prisoner < ActiveRecord::Base
     raise 'unsupported operation'
   end
 end
+
+class SimpleObserver < ActiveRecord::Observer
+
+  observe Simple
+  def after_save(simple)
+    raise 'should be bypass'
+  end
+
+  def after_create(simple)
+    raise 'should be bypass'
+  end
+
+  def after_update(simple)
+    raise 'should be bypass'
+  end
+end
