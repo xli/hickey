@@ -14,6 +14,23 @@ class WithScopeTest < Test::Unit::TestCase
     assert_equal ['first card'], project.cards.collect(&:name)
   end
   
+  def test_should_work_with_find_or_create_actions
+    Hickey.kiss :project => {
+      :identifier => 'hickey', :cards => [
+        {
+          :name => 'first card', 
+          :taggings => [{:tag => {:find_or_create => {:name => 'first_tag'}}}],
+        },
+        {
+          :name => 'dont make me think', 
+          :taggings => [{:tag => {:find_or_create => {:name => 'first_tag'}}}],
+        }
+      ]
+    }
+    assert_equal ['first_tag'], project.tags.collect(&:name)
+    assert_equal ['first card', 'dont make me think'].sort, project.cards.collect(&:name).sort
+  end
+  
   def test_should_not_effect_object_out_of_model_scope
     Hickey.kiss :writer => {:login => 'writer', :disscutions => [{:speaker => {:login => 'xli'}}, {:speaker => {:login => 'oo'}}]}
     assert_equal 2, writer.disscutions.collect(&:id).uniq.size
