@@ -48,6 +48,18 @@ rd = Rake::RDocTask.new("rdoc") { |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb', 'doc/**/*.rdoc')
 }
 
+if ! defined?(Gem)
+  puts "Package Target requires RubyGEMs"
+else
+  File.open(File.dirname(__FILE__) + '/hickey.gemspec') do |f|
+    spec = eval(f.read)
+    package_task = Rake::GemPackageTask.new(spec) do |pkg|
+      #pkg.need_zip = true
+      #pkg.need_tar = true
+    end
+  end
+end
+
 # Misc tasks =========================================================
 
 def count_lines(filename)
