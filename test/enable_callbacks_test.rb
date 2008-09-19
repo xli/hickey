@@ -114,9 +114,13 @@ class EnableCallbacksTest < Test::Unit::TestCase
   end
 
   def test_invoke_callback_specified_after_configured
-    Hickey.lipstick(:simple => {:callbacks => [:after_create]})
+    Hickey.lipstick(:simple => {:callbacks => [:after_create, :before_create]})
     Simple.class_eval do
+      before_create :create_user_before_create
       after_create :create_user_after_create
+      def create_user_before_create
+        Hickey.kiss(:user => {:login => 'create_user_before_create'})
+      end
       def create_user_after_create
         Hickey.kiss(:user => {:login => 'create_user_after_create'})
       end
@@ -126,6 +130,6 @@ class EnableCallbacksTest < Test::Unit::TestCase
     end
 
     Hickey.kiss(:simple => {})
-    assert_equal ['create_user_after_create'], User.find(:all).collect(&:login)
+    assert_equal ['create_user_after_create', 'create_user_before_create'].sort, User.find(:all).collect(&:login).sort
   end
 end
