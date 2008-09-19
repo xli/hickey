@@ -114,6 +114,18 @@ class EnableCallbacksTest < Test::Unit::TestCase
   end
 
   def test_invoke_callback_specified_after_configured
-    #do we need this?
+    Hickey.lipstick(:simple => {:callbacks => [:after_create]})
+    Simple.class_eval do
+      after_create :create_user_after_create
+      def create_user_after_create
+        Hickey.kiss(:user => {:login => 'create_user_after_create'})
+      end
+      def validate
+        raise 'should bypass'
+      end
+    end
+
+    Hickey.kiss(:simple => {})
+    assert_equal ['create_user_after_create'], User.find(:all).collect(&:login)
   end
 end

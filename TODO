@@ -4,7 +4,7 @@ Send suggestions for this list to iam@li-xiao.com
 
 === To Do
   * auto create model associations by each_card_type:
-      property_definitions_card_types => [each_card_type => {}]
+      property_definitions_card_types => [:each_card_type => {}]
   * specify item type by key name inside array list example: property_definitions => [{:enum_prop_def => {:name => 'xx'}}]
   * with scope
     * scope with user defined foreign_key id inside of model
@@ -16,14 +16,13 @@ Send suggestions for this list to iam@li-xiao.com
   * auto_generate_position_for_model_acts_as_list
   * prepare multi-models domain
     * :source, :source_type options in has_many :through
-  * enable callbacks
-    * enable specific callbacks
   * enable validations
   * composed_of
   * prepare with model validation
   * should be in transaction?
   * fast prepare by sql? really need it?
-  
+  * enable callbacks
+    * enable specific method of callbacks?
 === Done
   * prepare model data should not trigger any callback
   * prepare model with attributes
@@ -43,6 +42,7 @@ Send suggestions for this list to iam@li-xiao.com
     * has many
   * enable callbacks
     * enable all callbacks
+    * enable specific callbacks
   * actions: find or create
     * find
     * create as default

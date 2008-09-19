@@ -18,11 +18,13 @@ module Hickey
           end
         end
         unless configuration_of(instance)[:callbacks] == :all
-          instance.instance_eval do
-            def callback(*args)
-              true
+          callbacks = configuration_of(instance)[:callbacks] || []
+          instance.instance_eval <<-"end_eval"
+            alias :original_callback :callback
+            def callback(method)
+              [#{callbacks.collect(&:inspect).join(',')}].include?(method) ? original_callback(method) : true
             end
-          end
+          end_eval
         end
         instance
       end
