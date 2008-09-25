@@ -52,7 +52,9 @@ if ! defined?(Gem)
   puts "Package Target requires RubyGEMs"
 else
   File.open(File.dirname(__FILE__) + '/hickey.gemspec') do |f|
-    spec = eval(f.read)
+    data = f.read
+    spec = nil
+    Thread.new { spec = eval("$SAFE = 3\n#{data}") }.join
     package_task = Rake::GemPackageTask.new(spec) do |pkg|
       #pkg.need_zip = true
       #pkg.need_tar = true
