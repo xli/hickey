@@ -1,6 +1,16 @@
 require File.expand_path(File.dirname(__FILE__)) + '/test_helper'
 
 class WithScopeTest < Test::Unit::TestCase
+  def test_should_be_able_get_associated_scope_object_in_before_save
+    Hickey.setup(:card => {:callbacks => :all})
+    Hickey.setup(:tag => {:callbacks => :all})
+    Hickey.dump :project => {
+      :identifier => 'hickey', :cards => [{:name => 'first card', :taggings => [{:tag => {:name => 'first_tag'}}]}]
+    }
+  ensure
+    Hickey.setup.clear
+  end
+  
   def test_should_auto_associate_models_even_they_are_not_related_directly
     Hickey.dump :project => {
       :identifier => 'hickey', :cards => [
