@@ -10,13 +10,13 @@ require 'hickey/acceptor'
 require 'hickey/domain_detector'
 
 module Hickey
-  def kiss(domain)
+  def dump(domain)
     DomainDetector::Base.new.visit(domain)
   end
   
-  def lipstick(domain={})
+  def setup(domain={})
     DomainDetector::Base.configurations.merge! domain
   end
   
-  module_function :kiss, :lipstick
+  module_function :dump, :setup
 end

@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__)) + '/test_helper'
 
 class WithScopeTest < Test::Unit::TestCase
   def test_should_auto_associate_models_even_they_are_not_related_directly
-    Hickey.kiss :project => {
+    Hickey.dump :project => {
       :identifier => 'hickey', :cards => [
         {
           :name => 'first card', 
@@ -15,7 +15,7 @@ class WithScopeTest < Test::Unit::TestCase
   end
   
   def test_should_work_with_find_or_create_actions
-    Hickey.kiss :project => {
+    Hickey.dump :project => {
       :identifier => 'hickey', :cards => [
         {
           :name => 'first card', 
@@ -32,12 +32,12 @@ class WithScopeTest < Test::Unit::TestCase
   end
   
   def test_should_not_effect_object_out_of_model_scope
-    Hickey.kiss :writer => {:login => 'writer', :disscutions => [{:speaker => {:login => 'xli'}}, {:speaker => {:login => 'oo'}}]}
+    Hickey.dump :writer => {:login => 'writer', :disscutions => [{:speaker => {:login => 'xli'}}, {:speaker => {:login => 'oo'}}]}
     assert_equal 2, writer.disscutions.collect(&:id).uniq.size
   end
 
   def test_should_ignore_keys_that_dont_belong_to_model_in_the_scopes
-    project = Hickey.kiss :project => {
+    project = Hickey.dump :project => {
       :identifier => 'hickey', :cards => [
         {
           :name => 'first card',

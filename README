@@ -31,7 +31,7 @@ Suppose we have a User model that has attributes login and admin
   % end
 
 We can create a user model by the following code:
-  % Hickey.kiss(:user => {:login => 'xli', :admin => true})
+  % Hickey.dump(:user => {:login => 'xli', :admin => true})
 
 It's not the simplest way to create user model, but just let you know how it works.
 
@@ -59,7 +59,7 @@ Suppose we have the following models:
   % end
 
 We can create a domain in the test by the following code:
-  % Hickey.kiss :project => {
+  % Hickey.dump :project => {
   %   :identifier => 'hickey', :cards => [
   %     {
   %       :name => 'first card', 
@@ -73,7 +73,7 @@ We can create a domain in the test by the following code:
   % }
 
 Another example for we want to create tag cards with one same tag named 'first_tag':
-  % Hickey.kiss :project => {
+  % Hickey.dump :project => {
   %   :identifier => 'hickey', :cards => [
   %     {
   %       :name => 'first card', 
