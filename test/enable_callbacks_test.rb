@@ -9,7 +9,16 @@ class EnableCallbacksTest < Test::Unit::TestCase
       Simple.class_eval "def #{method};end"
     end
   end
-  
+
+  def test_configuration_setup_should_not_effect_other_instances
+    Hickey.setup(:simple => {:callbacks => [:after_save]})
+    simple = Hickey.dump(:simple => {})
+    assert simple.respond_to?(:original_callback, true)
+
+    simple = Simple.find(:all).first
+    assert !simple.respond_to?(:original_callback, true)
+  end
+
   def test_invoke_before_save_and_after_save_after_configured_all_callbacks
     Hickey.setup(:simple => {:callbacks => :all})
     Simple.class_eval do
