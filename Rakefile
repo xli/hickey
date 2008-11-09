@@ -37,20 +37,52 @@ end
 
 rd = Rake::RDocTask.new("rdoc") { |rdoc|
   rdoc.rdoc_dir = 'html'
-#  rdoc.template = 'kilmer'
-#  rdoc.template = 'css2'
-  rdoc.template = 'doc/jamis.rb'
+  rdoc.template = 'html'
   rdoc.title    = "Hickey"
   rdoc.options << '--line-numbers' << '--inline-source' <<
-    '--main' << 'README' <<
+    '--main' << 'README.rdoc' <<
     '--title' <<  'Hickey' 
-  rdoc.rdoc_files.include('README', 'LICENSE.txt', 'TODO', 'CHANGES')
+  rdoc.rdoc_files.include('README.rdoc', 'LICENSE.txt', 'TODO', 'CHANGES')
   rdoc.rdoc_files.include('lib/**/*.rb', 'doc/**/*.rdoc')
 }
 
 if ! defined?(Gem)
   puts "Package Target requires RubyGEMs"
 else
+  gem_content = <<-GEM
+Gem::Specification.new do |spec|
+  spec.name = 'hickey'
+  spec.version = "0.0.2"
+  spec.summary = "Hickey provides a simple way of preparing test data inside test for Rails project."
+
+  #### Dependencies and requirements.
+  spec.files = #{(Dir.glob("lib/**/*.rb") + ["CHANGES", "hickey.gemspec", "lib", "LICENSE.TXT", "Rakefile", "README.rdoc", "TODO"]).inspect}
+
+  spec.test_files = #{Dir.glob("test/**/*.rb").inspect}
+
+  #### Load-time details: library and application (you will need one or both).
+
+  spec.require_path = 'lib'                         # Use these for libraries.
+
+  #### Documentation and testing.
+
+  spec.has_rdoc = true
+  spec.extra_rdoc_files = #{rd.rdoc_files.reject { |fn| fn =~ /\.rb$/ }.to_a.inspect}
+  spec.rdoc_options = #{rd.options.inspect}
+
+  #### Author and project details.
+
+  spec.author = "Li Xiao"
+  spec.email = "iam@li-xiao.com"
+  spec.homepage = "http://github.com/xli/hickey/tree/master"
+  spec.rubyforge_project = "hickey"
+end
+GEM
+  File.open(File.dirname(__FILE__) + '/hickey.gemspec', 'w') do |f|
+    f.write(gem_content)
+  end
+
+  #build gem package same steps with github
   File.open(File.dirname(__FILE__) + '/hickey.gemspec') do |f|
     data = f.read
     spec = nil

@@ -90,15 +90,6 @@ Another example for we want to create tag cards with one same tag named 'first_t
 
 Hickey is available under an Apache License Version 2.0.
 
-== Support
-
-Feel free to submit commits or feature requests.  If you send a patch,
-remember to update the corresponding unit tests.  If fact, I prefer
-new feature to be submitted in the form of new unit tests.
-
-For other information, feel free to ask on the ruby-talk mailing list or contact
-mailto:iam@li-xiao.com.
-
 = Other stuff
 
 Author::  Li Xiao <iam@li-xiao.com>
