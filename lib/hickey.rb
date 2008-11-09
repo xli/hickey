@@ -10,6 +10,8 @@ require 'hickey/acceptor'
 require 'hickey/domain_detector'
 
 module Hickey
+  VERSION = '0.0.2'
+
   def dump(domain)
     DomainDetector::Base.new.visit(domain)
   end
